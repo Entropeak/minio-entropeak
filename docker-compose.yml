@@ -1,0 +1,32 @@
+version: "3"
+services:
+
+  storage:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    entrypoint: sh
+    command: -c 'minio server /data --console-address ":9001"'
+    deploy:
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - storage-data:/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:9000/minio/health/live"
+        ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+
+volumes:
+  storage-data:
