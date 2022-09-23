@@ -3,6 +3,7 @@ services:
 
   storage:
     image: minio/minio
+    env_file: ./.env
     ports:
       - "9000:9000"
       - "9001:9001"
