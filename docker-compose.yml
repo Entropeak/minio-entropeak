@@ -5,8 +5,8 @@ services:
     image: minio/minio
     env_file: ./.env
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_CONSOLE_PORT}:9001"
     entrypoint: sh
     command: -c 'minio server /data --console-address ":9001"'
     deploy:
